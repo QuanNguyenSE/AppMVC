@@ -1,3 +1,4 @@
+using AppMvc.ExtendMethods;
 using AppMvc.Services;
 using Microsoft.AspNetCore.Mvc.Razor;
 
@@ -21,7 +22,7 @@ builder.Services.Configure<RazorViewEngineOptions>(options =>
 // services.AddSingleton<ProductService, ProductService>();
 // services.AddSingleton(typeof(ProductService));
 builder.Services.AddSingleton(typeof(ProductService), typeof(ProductService));
-
+builder.Services.AddSingleton<PlanetService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -34,15 +35,67 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.AddStatusCodePage();
 
 app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
+// app.MapControllerRoute(
+//     name: "default",
+//     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+// app.MapRazorPages();
+
+// /sayhi
+app.MapGet("/sayhi", async (context) =>
+{
+    await context.Response.WriteAsync($"Hello ASP.NET MVC {DateTime.Now}");
+});
+
+// endpoints.MapControllers
+// endpoints.MapControllerRoute
+// endpoints.MapDefaultControllerRoute
+// endpoints.MapAreaControllerRoute
+
+// [AcceptVerbs]
+
+// [Route]
+
+// [HttpGet]
+// [HttpPost]
+// [HttpPut]
+// [HttpDelete]
+// [HttpHead]
+// [HttpPatch]
+
+// Area
+
+app.MapControllers();
+
+app.MapControllerRoute(
+    name: "first",
+    pattern: "{url:regex(^((xemsanpham)|(viewproduct))$)}/{id:range(2,4)}",
+    defaults: new
+    {
+        controller = "First",
+        action = "ViewProduct"
+    }
+
+);
+
+app.MapAreaControllerRoute(
+    name: "product",
+    pattern: "/{controller}/{action=Index}/{id?}",
+    areaName: "ProductManage"
+);
+
+// Controller khong co Area
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "/{controller=Home}/{action=Index}/{id?}"
+);
 
 app.MapRazorPages();
 

@@ -126,6 +126,7 @@ namespace AppMvc.Controllers
 
         [TempData]
         public string StatusMessage { get; set; }
+        [AcceptVerbs("POST", "GET")]
 
         public IActionResult ViewProduct(int? id)
         {
