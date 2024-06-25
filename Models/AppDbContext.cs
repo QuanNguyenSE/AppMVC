@@ -1,3 +1,4 @@
+using AppMvc.Models.Contacts;
 using Microsoft.EntityFrameworkCore;
 
 namespace AppMvc.Models
@@ -21,6 +22,6 @@ namespace AppMvc.Models
 
 
 
-        // public DbSet<Article> articles { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
     }
 }
